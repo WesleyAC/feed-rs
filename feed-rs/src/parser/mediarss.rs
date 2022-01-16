@@ -1,7 +1,7 @@
 use std::io::BufRead;
 use std::time::Duration;
 
-use mime::Mime;
+use mime::MediaType;
 
 use crate::model::{Image, MediaCommunity, MediaContent, MediaCredit, MediaObject, MediaRating, MediaText, MediaThumbnail, Text};
 use crate::parser::util::{if_ok_then_some, if_some_then, parse_npt};
@@ -113,7 +113,7 @@ fn handle_media_content<R: BufRead>(element: Element<R>, media_obj: &mut MediaOb
         match attr.name.as_str() {
             "url" => content.url = util::parse_uri(&attr.value, element.xml_base.as_ref()),
 
-            "type" => if_ok_then_some(attr.value.parse::<Mime>(), |v| content.content_type = v),
+            "type" => if_ok_then_some(attr.value.parse::<MediaType>(), |v| content.content_type = v),
 
             "width" => if_ok_then_some(attr.value.parse::<u32>(), |v| content.width = v),
             "height" => if_ok_then_some(attr.value.parse::<u32>(), |v| content.height = v),

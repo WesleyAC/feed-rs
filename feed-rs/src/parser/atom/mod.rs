@@ -1,6 +1,6 @@
 use std::io::BufRead;
 
-use mime::Mime;
+use mime::MediaType;
 
 use crate::model::{Category, Content, Entry, Feed, FeedType, Generator, Image, Link, MediaObject, Person, Text};
 use crate::parser::mediarss;
@@ -122,7 +122,7 @@ fn handle_content<R: BufRead>(element: Element<R>) -> ParseFeedResult<Option<Con
         // Escaped text per "Otherwise, if the type attribute starts with text, then an escaped document of this type is contained inline." and
         // also handles base64 encoded document of the indicated mime type per "Otherwise, a base64 encoded document of the indicated media type is contained inline."
         Some(ct) => {
-            if let Ok(mime) = ct.parse::<Mime>() {
+            if let Ok(mime) = ct.parse::<MediaType>() {
                 element
                     .child_as_text()
                     .map(|body| {

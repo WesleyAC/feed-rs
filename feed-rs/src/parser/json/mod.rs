@@ -1,6 +1,6 @@
 use std::io::Read;
 
-use mime::Mime;
+use mime::MediaType;
 
 use crate::model::{Category, Content, Entry, Feed, FeedType, Image, Link, Person, Text};
 use crate::parser::util::{if_some_then, timestamp_rfc3339_lenient};
@@ -64,7 +64,7 @@ fn handle_attachment(attachment: JsonAttachment) -> Link {
 }
 
 // Handles HTML or plain text content
-fn handle_content(content: Option<String>, content_type: Mime) -> Option<Content> {
+fn handle_content(content: Option<String>, content_type: MediaType) -> Option<Content> {
     content.map(|body| Content {
         length: Some(body.as_bytes().len() as u64),
         body: Some(body.trim().into()),
